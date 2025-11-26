@@ -13,7 +13,7 @@ const JWT_SECRET = process.env.JWT_SECRET || "rahasia";
 // Middleware untuk parsing JSON body
 app.use(bodyParser.json());
 
-// ===================== MIDDLEWARE AUTENTIKASI JWT =====================
+// MIDDLEWARE AUTENTIKASI JWT 
 function authenticateToken(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Format: "Bearer <token>"
@@ -27,7 +27,7 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// ===================== REGISTER USER =====================
+// REGISTER USER 
 app.post("/register", (req, res) => {
   const { username, password } = req.body;
 
@@ -51,7 +51,7 @@ app.post("/register", (req, res) => {
   });
 });
 
-// ===================== LOGIN USER =====================
+// LOGIN USER 
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
@@ -80,7 +80,7 @@ app.post("/login", (req, res) => {
   });
 });
 
-// ===================== GET SEMUA DIRECTORS (PUBLIK) =====================
+// GET SEMUA DIRECTORS (PUBLIK) 
 app.get("/directors", (req, res) => {
   const sql = "SELECT * FROM directors ORDER BY id ASC";
   dbDirectors.all(sql, [], (err, rows) => {
@@ -90,7 +90,7 @@ app.get("/directors", (req, res) => {
   });
 });
 
-// ===================== GET DIRECTOR BY ID (PUBLIK) =====================
+//  GET DIRECTOR BY ID (PUBLIK) 
 app.get("/directors/:id", (req, res) => {
   const sql = "SELECT * FROM directors WHERE id = ?";
   dbDirectors.get(sql, [req.params.id], (err, row) => {
@@ -101,7 +101,7 @@ app.get("/directors/:id", (req, res) => {
   });
 });
 
-// ===================== POST TAMBAH DIRECTOR (DENGAN TOKEN) =====================
+//  POST TAMBAH DIRECTOR (DENGAN TOKEN) 
 app.post("/directors", authenticateToken, (req, res) => {
   const { name, country } = req.body;
   if (!name || !country)
@@ -115,7 +115,7 @@ app.post("/directors", authenticateToken, (req, res) => {
   });
 });
 
-// ===================== PUT UBAH DIRECTOR (DENGAN TOKEN) =====================
+//  PUT UBAH DIRECTOR (DENGAN TOKEN) 
 app.put("/directors/:id", authenticateToken, (req, res) => {
   const { name, country } = req.body;
   if (!name || !country)
@@ -131,7 +131,7 @@ app.put("/directors/:id", authenticateToken, (req, res) => {
   });
 });
 
-// ===================== DELETE DIRECTOR (DENGAN TOKEN) =====================
+//  DELETE DIRECTOR (DENGAN TOKEN) 
 app.delete("/directors/:id", authenticateToken, (req, res) => {
   const sql = "DELETE FROM directors WHERE id = ?";
   dbDirectors.run(sql, [req.params.id], function (err) {
@@ -143,7 +143,7 @@ app.delete("/directors/:id", authenticateToken, (req, res) => {
   });
 });
 
-// ===================== STATUS SERVER =====================
+//  STATUS SERVER 
 app.get("/status", (req, res) => {
   res.json({
     ok: true,
@@ -152,7 +152,7 @@ app.get("/status", (req, res) => {
   });
 });
 
-// ===================== JALANKAN SERVER =====================
+//  JALANKAN SERVER 
 app.listen(PORT, () => {
   console.log(`Server berjalan di http://localhost:${PORT}`);
 });
